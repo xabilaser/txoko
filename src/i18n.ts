@@ -17,6 +17,7 @@ const resources = {
         entering: 'Entrando…',
         logout: 'Salir',
         language: 'Idioma',
+        offline: 'Sin conexión con el servidor',
       },
       nav: {
         board: 'Tablón',
@@ -52,6 +53,7 @@ const resources = {
         entering: 'Sartzen…',
         logout: 'Irten',
         language: 'Hizkuntza',
+        offline: 'Ez dago konexiorik zerbitzariarekin',
       },
       nav: {
         board: 'Iragarki taula',

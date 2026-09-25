@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { apiFetch } from '../api/client'
+import { apiFetch, ApiError } from '../api/client'
 import type { Usuario } from '@models/index'
 
 interface AuthState {
@@ -10,6 +10,13 @@ interface AuthState {
   cargarSesion: () => Promise<void>
   entrar: (email: string, password: string) => Promise<void>
   salir: () => Promise<void>
+}
+
+function mensaje(err: unknown): string {
+  if (err instanceof ApiError && err.status === 0) {
+    return 'auth.offline'
+  }
+  return err instanceof Error ? err.message : 'auth.offline'
 }
 
 export const useAuthStore = create<AuthState>()((set) => ({
@@ -35,7 +42,7 @@ export const useAuthStore = create<AuthState>()((set) => ({
       })
       set({ user, cargando: false })
     } catch (err) {
-      set({ cargando: false, error: err instanceof Error ? err.message : 'Error de conexión' })
+      set({ cargando: false, error: mensaje(err) })
       throw err
     }
   },
@@ -44,7 +51,7 @@ export const useAuthStore = create<AuthState>()((set) => ({
       await apiFetch('auth/logout.php', { method: 'POST' })
       set({ user: null, error: null })
     } catch (err) {
-      set({ error: err instanceof Error ? err.message : 'Error de conexión' })
+      set({ error: mensaje(err) })
     }
   },
 }))

@@ -8,6 +8,7 @@ import './index.css'
 import { useAppStore } from '@store/appStore'
 import { useAuthStore } from '@store/authStore'
 import { generarTurnosEuskaltegi, aplicarSatelite } from '@utils/euskaltegi'
+import { textoError } from '@utils/errores'
 import type { GrupoEuskaltegi, Aviso } from '@models/index'
 
 export default function App() {
@@ -86,7 +87,7 @@ export default function App() {
           className="bg-red-100 text-red-800 text-sm px-4 py-2 cursor-pointer"
           onClick={limpiarError}
         >
-          {error}
+          {textoError(t, error)}
         </p>
       )}
 

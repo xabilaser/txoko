@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAuthStore } from '@store/authStore'
+import { textoError } from '@utils/errores'
 
 export default function Login() {
   const { t, i18n } = useTranslation()
@@ -60,7 +61,7 @@ export default function Login() {
           />
         </label>
 
-        {error && <p className="text-sm text-red-600">{error}</p>}
+        {error && <p className="text-sm text-red-600">{textoError(t, error)}</p>}
 
         <button
           type="submit"

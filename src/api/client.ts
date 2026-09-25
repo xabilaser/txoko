@@ -17,7 +17,7 @@ export async function apiFetch<T>(path: string, init: RequestInit = {}): Promise
       ...init,
     })
   } catch {
-    throw new ApiError('Sin conexión con el servidor', 0)
+    throw new ApiError('auth.offline', 0)
   }
 
   const text = await response.text()
