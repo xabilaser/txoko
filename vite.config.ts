@@ -38,6 +38,14 @@ function precacheServiceWorker(): Plugin {
 export default defineConfig({
   base: './',
   plugins: [react(), precacheServiceWorker()],
+  server: {
+    proxy: {
+      '/api': {
+        target: process.env.VITE_API_PROXY ?? 'http://localhost:8000',
+        changeOrigin: false,
+      },
+    },
+  },
   resolve: {
     alias: {
       '@components': path.resolve(root, 'src/components'),

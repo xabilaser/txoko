@@ -1,0 +1,8 @@
+# Impide servir la configuración y el esquema como ficheros estáticos
+<FilesMatch "^(config\.php|config\.example\.php|schema\.mysql\.sql)$">
+    Require all denied
+</FilesMatch>
+
+<IfModule mod_headers.c>
+    Header set Cache-Control "no-store"
+</IfModule>

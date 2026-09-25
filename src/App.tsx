@@ -3,9 +3,12 @@ import { useTranslation } from 'react-i18next'
 import Calendar from '@components/Calendar'
 import NoticeBoard from '@components/NoticeBoard'
 import Profile from '@components/Profile'
+import Login from '@components/Login'
 import './index.css'
 import { useAppStore } from '@store/appStore'
+import { useAuthStore } from '@store/authStore'
 import { generarTurnosEuskaltegi, aplicarSatelite } from '@utils/euskaltegi'
+import { textoError } from '@utils/errores'
 import type { GrupoEuskaltegi, Aviso } from '@models/index'
 
 export default function App() {
@@ -13,6 +16,16 @@ export default function App() {
   const [tab, setTab] = useState<'board' | 'calendar' | 'profile'>('board')
   const setReservas = useAppStore((s) => s.setReservas)
   const setAvisos = useAppStore((s) => s.setAvisos)
+  const user = useAuthStore((s) => s.user)
+  const cargando = useAuthStore((s) => s.cargando)
+  const cargarSesion = useAuthStore((s) => s.cargarSesion)
+  const salir = useAuthStore((s) => s.salir)
+  const error = useAuthStore((s) => s.error)
+  const limpiarError = useAuthStore((s) => s.limpiarError)
+
+  useEffect(() => {
+    void cargarSesion()
+  }, [cargarSesion])
 
   // Demo seed: grupos y turnos del ikasturte actual
   useEffect(() => {
@@ -41,10 +54,20 @@ export default function App() {
     setAvisos(demoAvisos)
   }, [setReservas, setAvisos])
 
+  if (cargando) {
+    return <div className="min-h-screen flex items-center justify-center text-gray-500">{t('app.loading')}</div>
+  }
+
+  if (!user) {
+    return <Login />
+  }
+
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="bg-gray-900 text-white p-4 flex items-center justify-between">
+      <header className="bg-gray-900 text-white p-4 flex items-center justify-between gap-2">
         <h1 className="text-lg font-semibold">{t('app.title')}</h1>
+        <div className="flex items-center gap-2">
+        <span className="text-sm text-gray-300 hidden sm:inline">{user.apodo || user.nombre}</span>
         <select
           className="bg-gray-800 border border-gray-700 rounded px-2 py-1 text-sm"
           value={i18n.language}
@@ -53,7 +76,20 @@ export default function App() {
           <option value="es">Castellano</option>
           <option value="eu">Euskara</option>
         </select>
+        <button className="text-sm border border-gray-700 rounded px-2 py-1" onClick={() => void salir()}>
+          {t('auth.logout')}
+        </button>
+        </div>
       </header>
+
+      {error && (
+        <p
+          className="bg-red-100 text-red-800 text-sm px-4 py-2 cursor-pointer"
+          onClick={limpiarError}
+        >
+          {textoError(t, error)}
+        </p>
+      )}
 
       <nav className="grid grid-cols-3">
         <button className={`p-3 ${tab==='board'?'bg-white':'bg-gray-100'} border-b`} onClick={() => setTab('board')}>{t('nav.board')}</button>

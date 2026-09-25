@@ -13,6 +13,10 @@ export interface Socio {
   esEuskaltegi: boolean
 }
 
+export interface Usuario extends Socio {
+  email: string
+}
+
 export interface GrupoEuskaltegi {
   id: string
   nombre: string // nombre o número de grupo
