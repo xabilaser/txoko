@@ -44,8 +44,16 @@ function request_body(): array
 function require_method(string $method): void
 {
     if (($_SERVER['REQUEST_METHOD'] ?? 'GET') !== $method) {
+        header('Allow: ' . $method);
         json_error('Método no permitido', 405);
     }
+}
+
+/** Devuelve el campo como cadena; '' si falta o no es escalar. */
+function body_string(array $body, string $key): string
+{
+    $value = $body[$key] ?? null;
+    return is_string($value) ? $value : '';
 }
 
 function is_https(): bool
@@ -75,7 +83,9 @@ function start_session(): void
 function boot(): void
 {
     $debug = (bool) (config()['debug'] ?? false);
-    ini_set('display_errors', $debug ? '1' : '0');
+    // Nunca en la salida: cualquier aviso rompería el JSON de la respuesta.
+    ini_set('display_errors', '0');
+    ini_set('log_errors', '1');
     error_reporting(E_ALL);
 
     set_exception_handler(static function (Throwable $e) use ($debug): void {

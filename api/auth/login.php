@@ -8,11 +8,14 @@ boot();
 require_method('POST');
 
 $body = request_body();
-$email = strtolower(trim((string) ($body['email'] ?? '')));
-$password = (string) ($body['password'] ?? '');
+$email = strtolower(trim(body_string($body, 'email')));
+$password = body_string($body, 'password');
 
 if ($email === '' || $password === '') {
     json_error('Introduce el correo y la contraseña', 422);
+}
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    json_error('El correo no tiene un formato válido', 422);
 }
 
 $socio = find_socio_by_email($email);

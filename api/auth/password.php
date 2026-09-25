@@ -9,8 +9,8 @@ require_method('POST');
 
 $socio = require_socio();
 $body = request_body();
-$actual = (string) ($body['actual'] ?? '');
-$nueva = (string) ($body['nueva'] ?? '');
+$actual = body_string($body, 'actual');
+$nueva = body_string($body, 'nueva');
 
 if (!password_verify($actual, (string) $socio['password_hash'])) {
     json_error('La contraseña actual no es correcta', 401);
