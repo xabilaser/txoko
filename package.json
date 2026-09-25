@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:api": "php -S localhost:8000 -t .",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
     "backup": "powershell -ExecutionPolicy Bypass -File scripts/backup.ps1",

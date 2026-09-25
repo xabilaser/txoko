@@ -7,6 +7,15 @@ const resources = {
       app: {
         title: 'Txoko Komunitatea',
         footer: 'MVP - Gestión de Txoko',
+        loading: 'Cargando…',
+      },
+      auth: {
+        title: 'Entrar en el Txoko',
+        email: 'Correo electrónico',
+        password: 'Contraseña',
+        enter: 'Entrar',
+        entering: 'Entrando…',
+        logout: 'Salir',
       },
       nav: {
         board: 'Tablón',
@@ -32,6 +41,15 @@ const resources = {
       app: {
         title: 'Txoko Komunitatea',
         footer: 'MVP - Txoko Kudeaketa',
+        loading: 'Kargatzen…',
+      },
+      auth: {
+        title: 'Sartu Txokora',
+        email: 'Helbide elektronikoa',
+        password: 'Pasahitza',
+        enter: 'Sartu',
+        entering: 'Sartzen…',
+        logout: 'Irten',
       },
       nav: {
         board: 'Iragarki taula',

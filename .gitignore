@@ -21,6 +21,9 @@ pnpm-debug.log*
 .DS_Store
 Thumbs.db
 
+# Configuración local de la API (credenciales de la BBDD)
+api/config.php
+
 # Env
 .env
 .env.*.local
