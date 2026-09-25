@@ -16,6 +16,7 @@ const resources = {
         enter: 'Entrar',
         entering: 'Entrando…',
         logout: 'Salir',
+        language: 'Idioma',
       },
       nav: {
         board: 'Tablón',
@@ -50,6 +51,7 @@ const resources = {
         enter: 'Sartu',
         entering: 'Sartzen…',
         logout: 'Irten',
+        language: 'Hizkuntza',
       },
       nav: {
         board: 'Iragarki taula',

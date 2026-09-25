@@ -8,11 +8,17 @@ export class ApiError extends Error {
 
 export async function apiFetch<T>(path: string, init: RequestInit = {}): Promise<T> {
   const url = new URL(`${base}/${path.replace(/^\//, '')}`, document.baseURI).href
-  const response = await fetch(url, {
-    credentials: 'include',
-    headers: init.body ? { 'Content-Type': 'application/json' } : undefined,
-    ...init,
-  })
+
+  let response: Response
+  try {
+    response = await fetch(url, {
+      credentials: 'include',
+      headers: init.body ? { 'Content-Type': 'application/json' } : undefined,
+      ...init,
+    })
+  } catch {
+    throw new ApiError('Sin conexión con el servidor', 0)
+  }
 
   const text = await response.text()
   let data: unknown = null

@@ -6,6 +6,7 @@ interface AuthState {
   user: Usuario | null
   cargando: boolean
   error: string | null
+  limpiarError: () => void
   cargarSesion: () => Promise<void>
   entrar: (email: string, password: string) => Promise<void>
   salir: () => Promise<void>
@@ -15,6 +16,7 @@ export const useAuthStore = create<AuthState>()((set) => ({
   user: null,
   cargando: true,
   error: null,
+  limpiarError: () => set({ error: null }),
   cargarSesion: async () => {
     set({ cargando: true, error: null })
     try {
@@ -40,8 +42,9 @@ export const useAuthStore = create<AuthState>()((set) => ({
   salir: async () => {
     try {
       await apiFetch('auth/logout.php', { method: 'POST' })
-    } finally {
-      set({ user: null })
+      set({ user: null, error: null })
+    } catch (err) {
+      set({ error: err instanceof Error ? err.message : 'Error de conexión' })
     }
   },
 }))

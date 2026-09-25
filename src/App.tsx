@@ -19,6 +19,8 @@ export default function App() {
   const cargando = useAuthStore((s) => s.cargando)
   const cargarSesion = useAuthStore((s) => s.cargarSesion)
   const salir = useAuthStore((s) => s.salir)
+  const error = useAuthStore((s) => s.error)
+  const limpiarError = useAuthStore((s) => s.limpiarError)
 
   useEffect(() => {
     void cargarSesion()
@@ -78,6 +80,15 @@ export default function App() {
         </button>
         </div>
       </header>
+
+      {error && (
+        <p
+          className="bg-red-100 text-red-800 text-sm px-4 py-2 cursor-pointer"
+          onClick={limpiarError}
+        >
+          {error}
+        </p>
+      )}
 
       <nav className="grid grid-cols-3">
         <button className={`p-3 ${tab==='board'?'bg-white':'bg-gray-100'} border-b`} onClick={() => setTab('board')}>{t('nav.board')}</button>
